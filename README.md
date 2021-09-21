@@ -8,4 +8,6 @@ This is a header file only package doing linear interpolation *designed for scie
     cl_device_id clDevice = nullptr;
     cl_command_queue clQueue = nullptr;
     cl_program clProgram = nullptr;
+    
+    initializeCL(clContext, clDevice, clQueue, clProgram, LINTERP_FILE); // LINTERP_FILE: path to `linterp_ext.cl'
 ```
