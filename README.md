@@ -33,4 +33,26 @@ This is a header file only package doing linear interpolation *designed for scie
     }
 ```
 * The function *linspace* produces equally spaced grids between upper and lower bounds with desired number of points.
-* The function *linspacex* uses scaled grids between upper (*ub*) and lower (*lb*) bounds where *i*-th grid point based on total of *N* number of points and scaler *s* is computed by <img src="https://render.githubusercontent.com/render/math?math=lb %2B (ub - lb) \left( \frac{i-1}{N-1} \right)^{1.0/s}">.
+* The function *linspacex* uses scaled grids between upper (*ub*) and lower (*lb*) bounds where *i*-th grid point based on total of *N* number of points and scaler *s* is computed by <img src="https://render.githubusercontent.com/render/math?math=lb %2B (ub - lb) \left( \frac{i-1}{N-1} \right)^{1.0/s}">. Choosing *s* between zero and one makes the grids concentrated near zero, which is useful in some applications.
+
+**Step 3.** Evaluate the function and create an *linterpGPU* object
+```cpp
+    // Cartesian product of grids at each dimension
+    // Output is NN by Nd where NN is the product of all members in Ngrids
+    v2d test_grids = cartesian<double>(o_grids);
+
+    // Calculate grids based on user supplied function testfun
+    // Output is a vector with NN elements
+    vd test_f = testfun(test_grids);
+    
+    // Initialize linear interpolation object using GPU 
+    linterpGPU testobj_GPU(test_f, o_grids, scaler, lbb, ubb, clContext, clQueue, clProgram);
+```
+
+**Step 4.** Interpolate the desired grids
+```cpp
+    v2d interp_grids = cartesian<double>(p_grids); // Make cartesian product of points to interpolate
+    vd interp_grids_flat = flattenmat(interp_grids); // Flatten the matrix (Fortran ordered)
+    vd resultvec_GPU = testobj_GPU.interpN(interp_grids_flat); // The resulting vector
+```
+Of course, the grids to interpolate does not have to be supplied by *catersian* or *flattenmat* function. Any flattened vector which has dimension of *NN* (total number of grids to interpolate) times *Nd* (size of the dimension) inside the lower and upper bounds specified before should be okay.
