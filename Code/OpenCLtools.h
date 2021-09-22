@@ -2,7 +2,6 @@
 
 #ifndef OPENCLTOOLS_H_
 #define OPENCLTOOLS_H_
-#endif
 
 #include <iostream>
 #include <fstream>
@@ -337,3 +336,5 @@ cl_context CreateContext_CPU()
 
 	return context;
 }
+
+#endif

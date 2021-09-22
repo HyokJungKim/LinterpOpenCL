@@ -4,7 +4,6 @@
 
 #ifndef LINTERPCL_LINTERPCL_H
 #define LINTERPCL_LINTERPCL_H
-#endif //LINTERPCL_LINTERPCL_H
 
 #include "AllSettings.h"
 
@@ -102,3 +101,5 @@ vd linterpCPU::interpN(const v2d &in_grids) {
     }
     return outMat;
 };
+
+#endif //LINTERPCL_LINTERPCL_H
