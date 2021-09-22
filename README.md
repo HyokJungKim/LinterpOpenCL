@@ -2,6 +2,8 @@
 
 This is a header file only package doing linear interpolation *designed for scientific applications* programmed with [OpenCL](https://www.khronos.org/opencl/) to utilize GPUs. Both CPU (without OpenCL) and GPU versions are available. Let us start with a simple example!
 
+## Simple Example
+
 **Step 0.** Include the necessary header
 ```cpp
 #include "linterpGPU.h"
@@ -67,3 +69,6 @@ int main() {
     vd resultvec_GPU = testobj_GPU.interpN(interp_grids_flat); // The resulting vector
 ```
 Of course, the grids to interpolate does not have to be supplied by *catersian* or *flattenmat* function. Any flattened vector which has dimension of *NN* (total number of grids to interpolate) times *Nd* (size of the dimension) inside the lower and upper bounds specified before should be okay.
+
+## To-do List
+* Coming soon!
