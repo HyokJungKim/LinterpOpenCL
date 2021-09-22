@@ -2,7 +2,17 @@
 
 This is a header file only package doing linear interpolation *designed for scientific applications* programmed with [OpenCL](https://www.khronos.org/opencl/) to utilize GPUs. Both CPU (without OpenCL) and GPU versions are available. Let us start with a simple example!
 
+**Step 0.** Include the necessary header
+```cpp
+#include "linterpGPU.h"
 
+int main() {
+    
+    // All codes mentioned in the steps below goes here.
+    
+    return 0;
+}
+```
 
 **Step 1.** Initialize OpenCL environment
 ```cpp
