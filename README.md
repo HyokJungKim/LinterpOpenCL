@@ -33,4 +33,4 @@ This is a header file only package doing linear interpolation *designed for scie
     }
 ```
 * The function *linspace* produces equally spaced grids between upper and lower bounds with desired number of points.
-* The function *linspacex* uses scaled grids between upper and lower bounds where a member of equally spaced grid <img src="https://render.githubusercontent.com/render/math?math=m_i">
+* The function *linspacex* uses scaled grids between upper and lower bounds where *i*-th grid point is computed by <img src="https://render.githubusercontent.com/render/math?math=l_i %2B \left( \frac{i-1}{N-1} \right)"> is converted as <img src="https://render.githubusercontent.com/render/math?math=m_i">
