@@ -70,7 +70,7 @@ int main() {
 ```
 Of course, the grids to interpolate does not have to be supplied by *catersian* or *flattenmat* function. Any flattened vector which has dimension of *NN* (total number of grids to interpolate) times *Nd* (size of the dimension) inside the lower and upper bounds specified before should be okay.
 
-Using [Radoen VII](https://www.techpowerup.com/gpu-specs/radeon-vii.c3358), it takes 0.012 seconds to evaluate 32*32*32*32 points whereas one core of CPU takes 0.218 seconds. 
+Using [Radoen VII](https://www.techpowerup.com/gpu-specs/radeon-vii.c3358), it takes 0.012 seconds to evaluate 32^4 points whereas one core of CPU takes 0.218 seconds. 
 
 ## To-do List
 * Coming soon!
