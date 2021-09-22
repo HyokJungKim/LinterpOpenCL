@@ -44,6 +44,7 @@ int main() {
 ```
 * The function *linspace* produces equally spaced grids between upper and lower bounds with desired number of points.
 * The function *linspacex* uses scaled grids between upper (*ub*) and lower (*lb*) bounds where *i*-th grid point based on total of *N* number of points and scaler *s* is computed by <img src="https://render.githubusercontent.com/render/math?math=lb %2B (ub - lb) \left( \frac{i-1}{N-1} \right)^{1.0/s}">. Choosing *s* between zero and one makes the grids concentrated near zero, which is useful in some applications.
+* *p_grids* and *Ninterp* are related to points to interpolate in this example. In actual application they do not have to be supplied in this way. (See **Step 4.** for details)
 
 **Step 3.** Evaluate the function and create an *linterpGPU* object
 ```cpp
