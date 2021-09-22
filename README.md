@@ -34,14 +34,14 @@ int main() {
     vd lbb {-1.0, 0.5, 0.0, -0.5}; // Lower bounds
     vd scaler{0.4, 0.3, 0.8, 1.0}; // Scaler in the grid
     vi Ngrids {16, 16, 16, 16}; // Number of grids in each dimension as interpolation nodes
-    vi Ninterp {16, 32, 16, 32}; // Number of points in each dimention to interpolate
+    vi Ninterp {16, 32, 32, 32}; // Number of points in each dimention to interpolate
     
     v2d o_grids(Nd); // Interpolation nodes
     v2d p_grids(Nd); // Number of points to evaluate
 
     for (int nn = 0; nn < Nd; nn++) {
-        o_grids[nn] = linspacex(ubb[nn], lbb[nn], Ngrids[nn], scaler[nn]); // linspacex 
-        p_grids[nn] = linspacex(ubb[nn], lbb[nn], Ninterp[nn], scaler[nn]);
+        o_grids[nn] = linspacex(lbb[nn], ubb[nn], Ngrids[nn], scaler[nn]); // linspacex 
+        p_grids[nn] = linspacex(lbb[nn], ubb[nn], Ninterp[nn], scaler[nn]);
     }
 ```
 * The function *linspace* produces equally spaced grids between upper and lower bounds with desired number of points.
