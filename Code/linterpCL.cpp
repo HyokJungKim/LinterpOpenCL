@@ -38,7 +38,7 @@ int main() {
     int Nd = 4; // Size of the dimension
 
     vd ubb {1.0, 1.0, 1.0, 1.0}; // Upper bounds
-    vd lbb {0.0, 0.0, 0.0, 0.0}; // Lower bounds
+    vd lbb {-0.5, 0.0, 0.0, 0.0}; // Lower bounds
     vd scaler{0.4, 0.3, 0.8, 1.0}; // Scaler in the grid
     vi Ngrids {16, 16, 16, 16}; // Number of grids in each dimension as interpolation nodes
     vi Ninterp {32, 32, 32, 32}; // Number of points in each dimention to evaluate
