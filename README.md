@@ -1,6 +1,6 @@
 # LinterpOpenCL
 
-This is a header file only package doing linear interpolation *designed for scientific applications* programmed with [OpenCL](https://www.khronos.org/opencl/) to utilize GPUs. Both CPU (without OpenCL) and GPU versions are available. Let us start with a simple example! Any C++ programs can easily call this package.
+This is a header file only package doing linear interpolation *designed for scientific applications* programmed with [OpenCL](https://www.khronos.org/opencl/) to utilize GPUs. It can be easily integrated to any C++ programs. Both CPU (without OpenCL) and GPU versions are available. Let us start with a simple example!
 
 ## Simple Example
 
