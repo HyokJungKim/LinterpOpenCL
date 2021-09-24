@@ -74,9 +74,9 @@ Using [Radoen VII](https://www.techpowerup.com/gpu-specs/radeon-vii.c3358), it t
 
 ## To-do List
 * Easy switch between float 32 and 64 bits
-* Location of the kernel code as definition
-* Allow dimensions larger than 7
-* Allow total number of original function points larger than 256
+* Location of the OpenCL kernel code as definition
+* Allow dimensions larger than 7 (CPU version allows for any arbitrary dimension)
+* Allow total number of original function points larger than 256 (CPU version is fine)
 * Make dedicated OpenCL kernel codes for 1, 2, 3 and 4 variables for faster computation
 * Automatically check CPU and GPU memory sizes and give warning
 * Formal speed comparison among other well known CPU implementations and MATLAB (the CPU version of this package is already about 1.5 times faster than other C++ implementations; GPU is at least 10 times faster than the CPU.)
