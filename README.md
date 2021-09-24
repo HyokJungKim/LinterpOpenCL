@@ -79,4 +79,5 @@ Using [Radoen VII](https://www.techpowerup.com/gpu-specs/radeon-vii.c3358), it t
 * Make dedicated OpenCL kernel codes for 1, 2, 3 and 4 variables for faster computation
 * Automatically check CPU and GPU memory sizes and give warning
 * Formal speed comparison among other well known CPU implementations and MATLAB (this package is about 1.5 times faster than other C++ implementations)
+* Check the local memory size of the GPU and adaptively utilize larger memory spaces
 * Add description of how to setup OpenCL environments for novices
