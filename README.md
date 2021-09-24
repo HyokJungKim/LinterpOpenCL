@@ -73,4 +73,10 @@ Of course, the grids to interpolate does not have to be supplied by *catersian* 
 Using [Radoen VII](https://www.techpowerup.com/gpu-specs/radeon-vii.c3358), it takes 0.012 seconds to evaluate 32^4 points whereas one core of CPU takes 0.218 seconds. 
 
 ## To-do List
-* Coming soon!
+* Easy switch between float 32 and 64 bits
+* Allow dimensions larger than 7
+* Allow total number of original function points larger than 256
+* Make dedicated OpenCL kernel codes for 1, 2, 3 and 4 variables for faster computation
+* Automatically check CPU and GPU memory sizes and give warning
+* Formal speed comparison among other well known CPU implementations and MATLAB (this package is about 1.5 times faster than other C++ implementations)
+* Add description of how to setup OpenCL environments for novices
