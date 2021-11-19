@@ -8,6 +8,11 @@ This is a header file only package doing linear interpolation *designed for scie
 ```cpp
 #include "linterpGPU.h"
 
+// Following three lines are defined in "AllSetings.h"
+// typedef std::vector<int> vi;     # Vector of integers
+// typedef std::vector<double> vd;  # Vector of doubles
+// typedef std::vector<vd> v2d;     # Two-layers of vectors (Matrix)
+
 int main() {
     
     // All codes mentioned in the steps below goes here.
