@@ -10,14 +10,18 @@ __kernel void linterpN(__global const double* in_grids,
     const int Nd, const int totcol, const int workerN, 
     __global const double* fvals, __global double* outvec,
     __local double* o_grids, __local double* grid_sizes,
-    __local int* idx_info_i, __local double* idx_info_d, __local int* idxlist) {
+    __local int* idx_info_i, __local double* idx_info_d, __local int* idxlist,
+    const int multip256) {
     
     // caution: definition of this variable changes after the local memory fence
     int tempid = get_local_id(0);
 
     // Allocate local memories (3 operations too much?)
-    o_grids[tempid] = in_o_grids[tempid];
-    grid_sizes[tempid] = in_grid_sizes[tempid];
+    for (int ii = 0; ii < multip256; ii++) { 
+        o_grids[tempid+ii*get_local_size(0)] = in_o_grids[tempid+ii*get_local_size(0)];
+        grid_sizes[tempid+ii*get_local_size(0)] = in_grid_sizes[tempid+ii*get_local_size(0)];
+    }
+    
 
     if (tempid < 64) {
         if (tempid < 32) {

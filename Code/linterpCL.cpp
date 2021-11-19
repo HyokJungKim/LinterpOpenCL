@@ -38,16 +38,16 @@ int main() {
     int Nd = 4; // Size of the dimension
 
     vd ubb {1.0, 1.0, 1.0, 1.0}; // Upper bounds
-    vd lbb {-0.5, 0.0, 0.0, 0.0}; // Lower bounds
+    vd lbb {-1.0, 0.5, 0.0, -0.5}; // Lower bounds
     vd scaler{0.4, 0.3, 0.8, 1.0}; // Scaler in the grid
-    vi Ngrids {16, 16, 16, 16}; // Number of grids in each dimension as interpolation nodes
+    vi Ngrids {63, 63, 63, 64}; // Number of grids in each dimension as interpolation nodes
     vi Ninterp {32, 32, 32, 32}; // Number of points in each dimention to evaluate
 
     v2d o_grids(Nd); // Interpolation nodes
     v2d p_grids(Nd); // Number of points to evaluate
 
     for (int nn = 0; nn < Nd; nn++) {
-        o_grids[nn] = linspacex(lbb[nn], ubb[nn], Ngrids[nn], scaler[nn]);
+        o_grids[nn] = linspacex(lbb[nn], ubb[nn], Ngrids[nn], scaler[nn]); // linspacex
         p_grids[nn] = linspacex(lbb[nn], ubb[nn], Ninterp[nn], scaler[nn]);
     }
 

@@ -104,8 +104,16 @@ public:
         // Make kernel and set OpenCL variables
         setCL(in_clContext, in_clQueue, in_clProgram);
 
-        o_grids = vd(256, 0.0);
-        grid_sizes = vd(256, 0.0);
+        Nd = static_cast<int>(in_o_grids.size());
+        int Ncount = 0;
+        for (int ii = 0; ii < Nd; ii++) {
+            Ncount += static_cast<int>(in_o_grids[ii].size());
+        }
+
+        int multip256 = Ncount / 256 + 1;
+
+        o_grids = vd(256*multip256, 0.0);
+        grid_sizes = vd(256*multip256, 0.0);
         idx_info_i = vi(32, 0); // only up to 64 allowed?
         idx_info_d = vd(32, 0); // only up to 64 allowed?
 
@@ -114,10 +122,8 @@ public:
         lbb = in_lbb;
         ubb = in_ubb;
 
-        Nd = static_cast<int>(in_o_grids.size());
-
         int Ntot = 1;
-        int Ncount = 0;
+        Ncount = 0;
         vi tempi(Nd);
         totcol = 1;
 
@@ -192,11 +198,12 @@ public:
         errNum &= clSetKernelArg(clKernel, 9, sizeof(cl_mem), &mem_fvals);
 
         // Local memory
-        errNum &= clSetKernelArg(clKernel, 11, sizeof(cl_double) * 256, nullptr);
-        errNum &= clSetKernelArg(clKernel, 12, sizeof(cl_double) * 256, nullptr);
+        errNum &= clSetKernelArg(clKernel, 11, sizeof(cl_double) * 256 * multip256, nullptr);
+        errNum &= clSetKernelArg(clKernel, 12, sizeof(cl_double) * 256 * multip256, nullptr);
         errNum &= clSetKernelArg(clKernel, 13, sizeof(cl_int) * 32, nullptr);
         errNum &= clSetKernelArg(clKernel, 14, sizeof(cl_double) * 32, nullptr);
         errNum &= clSetKernelArg(clKernel, 15, sizeof(cl_int) * mult, nullptr);
+        errNum &= clSetKernelArg(clKernel, 16, sizeof(cl_int), (void*)&multip256);
         if (errNum != CL_SUCCESS) { std::cerr << "Error setting kernel arguments. \n"; PrintErrorCL(errNum); }
     }
     
@@ -396,8 +403,16 @@ public:
         // Make kernel and set OpenCL variables
         setCL(in_clContext, in_clQueue, in_clProgram);
 
-        o_grids = vd(256, 0.0);
-        grid_sizes = vd(256, 0.0);
+        Nd = static_cast<int>(in_o_grids.size());
+        int Ncount = 0;
+        for (int ii = 0; ii < Nd; ii++) {
+            Ncount += static_cast<int>(in_o_grids[ii].size());
+        }
+
+        int multip256 = Ncount / 256 + 1;
+
+        o_grids = vd(256*multip256, 0.0);
+        grid_sizes = vd(256*multip256, 0.0);
         idx_info_i = vi(32, 0);
         idx_info_d = vd(32, 0);
 
@@ -412,7 +427,7 @@ public:
         Nd = static_cast<int>(in_o_grids.size());
 
         int Ntot = 1;
-        int Ncount = 0;
+        Ncount = 0;
         vi tempi(Nd);
         totcol = 1;
 
@@ -474,8 +489,10 @@ public:
                                    fvals.data(), &errNum);
         if (errNum != CL_SUCCESS) { std::cerr << "Error creating buffer. \n"; PrintErrorCL(errNum); }
 
-        mem_outvec = clCreateBuffer(clContext, CL_MEM_WRITE_ONLY,
+        mem_outvec = clCreateBuffer(clContext, CL_MEM_READ_WRITE,
                                 sizeof(double) * outvec_size, nullptr, &errNum);
+        //mem_outvec = clCreateBuffer(clContext, CL_MEM_WRITE_ONLY,
+        //                            sizeof(double) * outvec_size, nullptr, &errNum);
         if (errNum != CL_SUCCESS) { std::cerr << "Error creating buffer. \n"; PrintErrorCL(errNum); }
 
         // Set Kernels
@@ -491,16 +508,18 @@ public:
         errNum &= clSetKernelArg(clKernel, 9, sizeof(cl_mem), &mem_fvals);
         errNum &= clSetKernelArg(clKernel, 10, sizeof(cl_mem), &mem_outvec);
         // Local memory
-        errNum &= clSetKernelArg(clKernel, 11, sizeof(cl_double) * 256, nullptr);
-        errNum &= clSetKernelArg(clKernel, 12, sizeof(cl_double) * 256, nullptr);
-        errNum &= clSetKernelArg(clKernel, 13, sizeof(cl_int) * 32, nullptr);
-        errNum &= clSetKernelArg(clKernel, 14, sizeof(cl_double) * 32, nullptr);
-        errNum &= clSetKernelArg(clKernel, 15, sizeof(cl_int) * mult, nullptr);
+        errNum &= clSetKernelArg(clKernel, 11, sizeof(cl_double)*256*multip256, nullptr);
+        errNum &= clSetKernelArg(clKernel, 12, sizeof(cl_double)*256*multip256, nullptr);
+        errNum &= clSetKernelArg(clKernel, 13, sizeof(cl_int)*32, nullptr);
+        errNum &= clSetKernelArg(clKernel, 14, sizeof(cl_double)*32, nullptr);
+        errNum &= clSetKernelArg(clKernel, 15, sizeof(cl_int)*mult, nullptr);
+        errNum &= clSetKernelArg(clKernel, 16, sizeof(cl_int), (void*) &multip256);
         if (errNum != CL_SUCCESS) { std::cerr << "Error setting kernel arguments. \n"; PrintErrorCL(errNum); }
     }
     
     vd interpN(vd& in_grids);
-    //void interpN_keep(vd& in_grids);
+    void interpN_NoOut(vd& in_grids);
+    void interpN_NoOut(cl_mem& mem_in_grids, int);
     void clearGPU();
     void update_fvals(vd&);
 };
@@ -598,8 +617,55 @@ vd linterpGPU_preset::interpN(vd &in_grids) {
     errNum = clReleaseMemObject(mem_grids);
     if (errNum != CL_SUCCESS) { std::cerr << "Error releasing memory. \n"; PrintErrorCL(errNum); }
 
-
     return outvec;
+};
+
+void linterpGPU_preset::interpN_NoOut(vd &in_grids) {
+    global_t[0] = multiples<size_t>(in_grids.size() / static_cast<size_t>(Nd),
+                                    256 * static_cast<size_t>(workerN));
+    in_grids.resize(global_t[0] * static_cast<size_t>(Nd), 0.0); // Make it a multiple of 256
+
+    global_t[0] /= static_cast<size_t>(workerN);
+
+    // Assign OpenCL memory objects
+    mem_grids = clCreateBuffer(clContext, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+                               sizeof(double) * in_grids.size(),
+                               in_grids.data(), &errNum);
+    if (errNum != CL_SUCCESS) { std::cerr << "Error creating buffer. \n"; PrintErrorCL(errNum); }
+
+    // Set Kernels
+    errNum = clSetKernelArg(clKernel, 0, sizeof(cl_mem), &mem_grids);
+    if (errNum != CL_SUCCESS) { std::cerr << "Error setting kernel arguments. \n"; PrintErrorCL(errNum); }
+
+    // Run kernel
+    errNum = clEnqueueNDRangeKernel(clQueue, clKernel, 1, nullptr,
+                                    global_t, local_t, 0,
+                                    nullptr, nullptr);
+    if (errNum != CL_SUCCESS) { std::cerr << "Error running clKernel. \n"; PrintErrorCL(errNum); }
+
+    errNum = clReleaseMemObject(mem_grids);
+    if (errNum != CL_SUCCESS) { std::cerr << "Error releasing memory. \n"; PrintErrorCL(errNum); }
+};
+
+void linterpGPU_preset::interpN_NoOut(cl_mem &mem_in_grids, const int NN) {
+    size_t NN_t = static_cast<size_t>(NN);
+
+    global_t[0] = multiples<size_t>(NN_t, 256 * static_cast<size_t>(workerN));
+    global_t[0] /= static_cast<size_t>(workerN);
+
+    // Set Kernels
+    errNum = clSetKernelArg(clKernel, 0, sizeof(cl_mem), &mem_in_grids);
+    if (errNum != CL_SUCCESS) { std::cerr << "Error setting kernel arguments. \n"; PrintErrorCL(errNum); }
+
+    // Run kernel
+    errNum = clEnqueueNDRangeKernel(clQueue, clKernel, 1, nullptr,
+                                    global_t, local_t, 0,
+                                    nullptr, nullptr);
+    if (errNum != CL_SUCCESS) { std::cerr << "Error running clKernel. \n"; PrintErrorCL(errNum); }
+
+    //errNum = clEnqueueReadBuffer(clQueue, mem_outvec, CL_TRUE, 0, sizeof(double) * outvec.size(),
+    //                             outvec.data(), 0, nullptr, nullptr);
+    //if (errNum != CL_SUCCESS) { std::cerr << "Error reading buffer. \n"; PrintErrorCL(errNum); }
 };
 
 /*
