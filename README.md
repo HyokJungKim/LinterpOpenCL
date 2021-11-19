@@ -20,6 +20,7 @@ int main() {
     return 0;
 }
 ```
+I denote "vi" as a vector of integers. "vd" is a vector of doubles. "v*n*d" is a *n*-layers of vector, or *n*-dimensional matrix.
 
 **Step 1.** Initialize OpenCL environment
 ```cpp
