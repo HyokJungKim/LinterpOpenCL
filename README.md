@@ -1,6 +1,6 @@
 # LinterpOpenCL
 
-LinterpOpenCL is a header-file-only package doing linear interpolations. It is specifically designed for *scientific applications* programmed with [OpenCL](https://www.khronos.org/opencl/). Both CPU (without OpenCL) and GPU versions are available. It goes well with any C++17 program. No mathematical libraries (e.g., Eigen, Armadillo, etc.) outside of C++ standards are necessary!
+LinterpOpenCL is a header-file-only package doing linear interpolations. It is specifically designed for *scientific applications* programmed with [OpenCL](https://www.khronos.org/opencl/). Both CPU (without OpenCL) and GPU versions are available. It goes well with any C++17 program. No mathematical libraries (e.g., Eigen, Armadillo, etc.) outside of C++17 standards are necessary!
 
 Let us start with a simple example!
 
